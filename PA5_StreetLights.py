@@ -56,7 +56,7 @@ class Queue(object):
 
 def traffic_light_controller():
     
-    # Initialize queues for North, South, East, and West streets
+    # start teh queues for north, south, east, and west streets
     queues = {
         'North': Queue(10),
         'South': Queue(10),
@@ -64,54 +64,55 @@ def traffic_light_controller():
         'West': Queue(10)
     }
     
-    # Start with North having a green light
+    # start with North having a green light
     green_light = 'North'
     
-    # Keep track of iterations for simulation purposes
+    # store numbor of iterations
     iteration = 0
-    car_id = 1  # To uniquely identify each car
+    car_id = 1  # uniquely id for each car
     
-    # Run the simulation for 10 iterations (can be changed)
+    # run it back 10 time
     while iteration < 10:
         print(f"--- Iteration {iteration+1} ---")
         
-        # Random car arrival (35% chance per street)
+        # god spawns cars (35% chance per street)
         for street in queues:
-            if random.random() < 0.35:
+            if random.random() <= 0.35:
                 queues[street].insert(f"Car{car_id}")
-                print(f"{street}: Car{car_id} has arrived. Queue: {queues[street]}")
+                print(f"{street}: car{car_id} has drove good. queue: {queues[street]}")
                 car_id += 1
         
-        # Display current traffic light and queues
-        print(f"\nCurrent green light: {green_light}")
+        # shows teh traffic lights and queues
+        print(f"\ncurrent green light: {green_light}")
         for street, queue in queues.items():
             print(f"{street} queue: {queue}")
         
-        # Check if the current street queue is empty or has reached 6 cars
+        # check queue longth
         current_queue = queues[green_light]
         if current_queue.isEmpty() or len(current_queue) >= 6:
-            # Find the street with the most cars (or with at least 6 cars)
+            # get street with most cars (or at least 6)
             max_cars_street = green_light
             for street, queue in queues.items():
                 if len(queue) > len(queues[max_cars_street]):
                     max_cars_street = street
             
-            # Switch the green light to the street with the most cars
+            # set green light to longthiest # of car street
             green_light = max_cars_street
-            print(f"Switched green light to {green_light}.\n")
+            print(f"switched green light to {green_light}.\n")
         
-        # Allow cars to pass if the green light is on for a street
+        # let cars drive when green light (drivers not from evansville)
         if not queues[green_light].isEmpty():
             removed_car = queues[green_light].remove()
             print(f"{green_light}: {removed_car} has passed through the green light.")
         
-        # Wait a little before the next iteration (simulating time passing)
+        # add some sleepy time for the drivers so they can take a nap
         time.sleep(1)
+        # next sim step
         iteration += 1
     
-    print("\n--- Simulation complete ---")
+    print("\n--- super-sim complete ---")
 
-# Run the traffic light controller simulation
+# run the simulatormatron
 traffic_light_controller()
 
 # Queue Initialization: Creates a queue for each street, with a maximum size of 10.
